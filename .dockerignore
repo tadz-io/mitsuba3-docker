@@ -1,0 +1,15 @@
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Logs
+*.log
+
+# Git
+.git/
+.gitignore
+
+# Docker artifacts
+Dockerfile~
+.dockerignore~
