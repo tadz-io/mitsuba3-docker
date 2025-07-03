@@ -1,6 +1,5 @@
 FROM ubuntu:24.04
-# set directory for the drjit wheel
-ENV WHEELHOUSE=/usr/local/wheelhouse
+
 # set default C++ compilers
 ENV CC=clang-17
 ENV CXX=clang++-17
@@ -33,22 +32,7 @@ ENV PATH="/root/.local/bin:$PATH"
 RUN git clone --branch v3.6.4 --recursive https://github.com/mitsuba-renderer/mitsuba3 && \
     cd mitsuba3 && \
     git submodule update --init --recursive
-
-# clone drjit v1.0.5
-RUN git clone --recursive --branch v1.0.5 https://github.com/mitsuba-renderer/drjit.git
-
-# Replace -march=ivybridge with -march=native for linux arm64 builds
-RUN find . -path "*/cmake-defaults/CMakeLists.txt" \
-    -exec sed -i 's/-march=ivybridge/-march=native/g' {} \;
-
-# build wheel for drjit
-RUN python3 -m pip wheel /usr/local/drjit -w $WHEELHOUSE    
-# swap pyproject.toml template with placeholder for drjit wheel
-COPY /mitsuba3/pyproject.toml /usr/local/mitsuba3/pyproject.toml
-# infer the wheel filename and substitute in the TOML
-RUN WHEEL_FILE=$(ls $WHEELHOUSE/drjit-*.whl | head -n 1) && \
-    sed -i "s|__DRJIT_WHEEL_PATH__|$WHEEL_FILE|g" /usr/local/mitsuba3/pyproject.toml
-      
+   
 # build Mitsuba
 RUN cd mitsuba3 && \
     mkdir build && \
