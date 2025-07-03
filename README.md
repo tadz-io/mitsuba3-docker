@@ -1,6 +1,6 @@
 # Mitsuba 3 Docker Build
 
-This repository provides a Dockerfile to build [Mitsuba 3](https://github.com/mitsuba-renderer/mitsuba3) from source. For builds on **Linux ARM64** checkout the `linux-arm64` branch.
+This repository provides a Dockerfile to build [Mitsuba 3](https://github.com/mitsuba-renderer/mitsuba3) from source using Vast.ai's cuda base image (`vastai-cuda-12.8.1-auto`)
 
 ## ✅ Tested for
 

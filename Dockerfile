@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM vastai/base-image:cuda-12.8.1-auto
 
 # set default C++ compilers
 ENV CC=clang-17
@@ -32,12 +32,17 @@ ENV PATH="/root/.local/bin:$PATH"
 RUN git clone --branch v3.6.4 --recursive https://github.com/mitsuba-renderer/mitsuba3 && \
     cd mitsuba3 && \
     git submodule update --init --recursive
+
+# copy bash script to update mitsuba variants in mitsuba.conf
+COPY set_variants.sh .
+RUN chmod +x set_variants.sh
    
 # build Mitsuba
 RUN cd mitsuba3 && \
     mkdir build && \
     cd build && \
     cmake -GNinja .. && \
+    ../../set_variants.sh mitsuba.conf "scalar_rgb" "scalar_spectral" "cuda_spectral" "llvm_ad_spectral" && \
     ninja
 
 # create venv using uv
