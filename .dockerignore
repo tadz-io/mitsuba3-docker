@@ -9,6 +9,7 @@ venv/
 # Git
 .git/
 .gitignore
+.github/
 
 # Docker artifacts
 Dockerfile~
