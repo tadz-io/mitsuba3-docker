@@ -18,10 +18,10 @@ RUN apt-get update && \
         ninja-build \
         libpng-dev \
         libjpeg-dev \
-        libpython3-dev \
+        python3.12 \
+        libpython3.12-dev \
         python3-setuptools \
         python3-pip \
-        python3-wheel \
         curl
 
 # install uv
@@ -46,7 +46,7 @@ RUN cd mitsuba3 && \
     ninja
 
 # create venv using uv
-RUN uv venv /opt/venv
+RUN uv venv -p python3.12 /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 RUN uv pip install /usr/local/mitsuba3

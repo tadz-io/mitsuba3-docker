@@ -17,7 +17,6 @@ jq -nf "$CONFIG_FILE" > "${CONFIG_FILE}.tmp"
 # 4. Use jq to update the 'enabled' array
 joined_args=$(printf '%s\n' "$@" | jq -R . | jq -s .)
 
-echo "$joined_args"
 # Use jq to replace the enabled array
 jq ".enabled = ${joined_args}" "$CONFIG_FILE".tmp > "$CONFIG_FILE"
 
