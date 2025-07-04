@@ -52,6 +52,9 @@ ENV PATH="/opt/venv/bin:$PATH"
 # remove "readme" from dynamic field in pyproject.toml
 RUN sed -i '/dynamic =/s/, "readme"//' /usr/local/mitsuba3/pyproject.toml
 
-RUN uv pip install /usr/local/mitsuba3
+# install drjit from source
+RUN uv pip install -v /usr/local/mitsuba3/ext/drjit
+# install mitsuba without drjit dependency
+RUN uv pip install -v --no-deps /usr/local/mitsuba3
 
 CMD ["/bin/bash"]
