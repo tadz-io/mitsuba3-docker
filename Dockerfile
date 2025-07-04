@@ -49,6 +49,9 @@ RUN cd mitsuba3 && \
 RUN uv venv -p python3.12 /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
+# remove "readme" from dynamic field in pyproject.toml
+RUN sed -i '/dynamic =/s/, "readme"//' /usr/local/mitsuba3/pyproject.toml
+
 RUN uv pip install /usr/local/mitsuba3
 
 CMD ["/bin/bash"]
