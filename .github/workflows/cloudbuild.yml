@@ -1,0 +1,28 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [vastai-cuda-12.8.1-auto]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Google Cloud CLI
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        export_default_credentials: true
+    
+    - name: Configure Docker to use gcloud
+      run: gcloud auth configure-docker
+    
+    - name: Submit build to Cloud Build
+      run: |
+        gcloud builds submit --config cloudbuild.yaml \
+          --substitutions=SHORT_SHA=$(git rev-parse --short HEAD)
