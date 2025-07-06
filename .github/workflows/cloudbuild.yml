@@ -24,5 +24,5 @@ jobs:
 
       - name: Submit build to Cloud Build
         run: |
-          gcloud builds submit --config cloudbuild.yaml \
+          gcloud builds submit --config cloudbuild.yml \
             --substitutions=SHORT_SHA=$(git rev-parse --short HEAD)
