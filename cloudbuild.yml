@@ -7,5 +7,9 @@ steps:
 images:
   - 'gcr.io/$PROJECT_ID/your-app:$SHORT_SHA'
 
+timeout: 7200s
+
 options:
+  machineType: 'E2_HIGHCPU_32'  # More powerful machine
+  diskSizeGb: 100
   logging: CLOUD_LOGGING_ONLY
